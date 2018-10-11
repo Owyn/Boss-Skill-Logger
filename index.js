@@ -18,8 +18,7 @@ module.exports = function BossSkillLogger(dispatch) {
 
 	dispatch.command.add('bosslog', () => {
 		enabled = !enabled;
-		writeLog = !writeLog;
-		dispatch.command.message('记录王的技能ID ' + enabled ? '启用'.clr('00FFFF') : '禁用'.clr('E69F00'));
+		dispatch.command.message('记录王的技能ID ' + (enabled ? '启用'.clr('00FFFF') : '禁用'.clr('E69F00')));
 
 		if (writeLog) { 
 			if (enabled) {
