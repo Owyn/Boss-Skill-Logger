@@ -1,0 +1,17 @@
+{
+	"files": {
+		"README.md": "5762b617f56e7a789772a8101e4ad331a0d7664b469331eddf6443e9e7b868c7",
+		"format.js": "a0d34cfb7ab631177fbb0302e06a5858155db60afc459cd14f50b000afa2463e",
+		"index.js": "5c508420b2ca6ebb8a3c3131320486b82a602efa8918c4bdca528349fc20b731",
+		"module.json": "59693a1135d5c39b0516dceacf646c4c53fdc530498f824cd4d9a0f4a425c97b"
+	},
+	"defs": {
+		"S_ACTION_STAGE": 8,
+		"S_BOSS_GAGE_INFO": 3,
+		"S_CHAT": 2,
+		"S_DUNGEON_EVENT_MESSAGE": 2,
+		"S_EXIT": 3,
+		"S_LOGIN": 10,
+		"S_PARTY_MEMBER_LIST": 7
+	}
+}
