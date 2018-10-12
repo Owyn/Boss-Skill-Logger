@@ -16,7 +16,7 @@ module.exports = function BossSkillLogger(dispatch) {
 
 	var stream;
 
-	dispatch.command.add('bosslog', () => {
+	dispatch.command.add('bsl', () => {
 		enabled = !enabled;
 		dispatch.command.message('记录王的技能ID ' + (enabled ? '启用'.clr('56B4E9') : '禁用'.clr('E69F00')));
 
@@ -54,16 +54,6 @@ module.exports = function BossSkillLogger(dispatch) {
 		party = event;
 	})
 
-	dispatch.hook('S_DUNGEON_EVENT_MESSAGE', 2, (event) => {
-		if (!enabled) return;
-		sendChat('MSG: ' + `${event.message}`.clr('00FFFF'));
-		if (writeLog)
-			stream.write(
-				'\n' + new Date().toLocaleTimeString() + 
-				' |S_DUNGEON_EVENT_MESSAGE|:	' + event.message
-			);
-	})
-
 	dispatch.hook('S_BOSS_GAGE_INFO', 3, (event) => { 
 		if (!enabled) return;
 		if (writeLog)
@@ -75,6 +65,16 @@ module.exports = function BossSkillLogger(dispatch) {
 			);
 	})
  */
+	dispatch.hook('S_DUNGEON_EVENT_MESSAGE', 2, (event) => {
+		if (!enabled) return;
+		sendChat('MSG: ' + `${event.message}`.clr('00FFFF'));
+		if (writeLog)
+			stream.write(
+				'\n' + new Date().toLocaleTimeString() + 
+				' |S_DUNGEON_EVENT_MESSAGE|:	' + event.message
+			);
+	})
+
 	dispatch.hook('S_ACTION_STAGE', 8, (event) => {
 		if (!enabled || ((event.gameId - cid) == 0)) return;
 
