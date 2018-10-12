@@ -49,38 +49,9 @@ module.exports = function BossSkillLogger(dispatch) {
 			}
 		}
 	})
-
+/* 
 	dispatch.hook('S_PARTY_MEMBER_LIST', 7, (event) => {
 		party = event;
-	})
-
-	dispatch.hook('S_BOSS_GAGE_INFO', 3, (event) => { 
-		if (!enabled) return;
-		if (writeLog)
-			stream.write(
-				'\n' + new Date().toLocaleTimeString() + 
-				' |S_BOSS_GAGE_INFO|:	' + event.id + 
-				'	huntingZoneId: ' + event.huntingZoneId + 
-				'		templateId: '+ event.templateId
-			);
-	})
-
-	dispatch.hook('S_ACTION_STAGE', 8, (event) => {
-		if (!enabled || ((event.gameId - cid) == 0)) return;
-/* 		for (let i in party.members) {
-			if (party.members[i].gameId - event.gameId == 0) return;
-		} */
-		if (event.templateId!==1000 || event.templateId!==2000 || event.templateId!==3000) return;
-		if (event.stage > 0) return;
-		sendChat('ACT: ' + `${event.skill}`.clr('E69F00') + ` ${event.skill.id}`.clr('56B4E9') +` ${event.id}`.clr('00FFFF'));
-		if (writeLog)
-			stream.write(
-				'\n' + new Date().toLocaleTimeString() + 
-				' |S_ACTION_STAGE|:		' + event.gameId + 
-				'	skill: ' + event.skill + 
-				'	id: ' + event.id + 
-				'	stage: ' + event.stage
-			);
 	})
 
 	dispatch.hook('S_DUNGEON_EVENT_MESSAGE', 2, (event) => {
@@ -93,17 +64,41 @@ module.exports = function BossSkillLogger(dispatch) {
 			);
 	})
 
-	dispatch.hook('S_CHAT', 2, (event) => {
+	dispatch.hook('S_BOSS_GAGE_INFO', 3, (event) => { 
 		if (!enabled) return;
-		if (event.channel == 1 || event.channel == 21 || event.channel == 0) {
-			if (writeLog)
-				stream.write(
-					'\n' + new Date().toLocaleTimeString() + 
-					' |S_CHAT|: ' + event.authorName + 
-					'	: ' + event.message
-				);
-		}
-	}) 
+		if (writeLog)
+			stream.write(
+				'\n' + new Date().toLocaleTimeString() + 
+				' |S_BOSS_GAGE_INFO|:	' + event.id + 
+				'	huntingZoneId: ' + event.huntingZoneId + 
+				'		templateId: '+ event.templateId
+			);
+	})
+ */
+	dispatch.hook('S_ACTION_STAGE', 8, (event) => {
+		if (!enabled || ((event.gameId - cid) == 0)) return;
+
+		// for (let i in party.members) {
+			// if (party.members[i].gameId - event.gameId == 0) return;
+		// }
+
+		if (event.templateId!=1000 && event.templateId!=2000 && event.templateId!=3000) return;
+		if (event.stage > 0) return;
+		sendChat(
+			'ACT: ' + `${event.skill}`.clr('E69F00') + 
+			` ${event.skill.id % 1000}`.clr('56B4E9') + 
+			` ${event.id} `.clr('00FFFF')
+		);
+		if (writeLog)
+			stream.write(
+				'\n' + new Date().toLocaleTimeString() + 
+				' |S_ACTION_STAGE|:		' + event.gameId + 
+				'	skill: ' + event.skill + 
+				'	id: ' + event.id + 
+				'	stage: ' + event.stage + 
+				'	templateId: ' + event.templateId
+			);
+	})
 
     function getTime() {
         var time = new Date();
