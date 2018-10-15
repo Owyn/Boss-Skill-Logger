@@ -86,7 +86,7 @@ module.exports = function BossSkillLogger(dispatch) {
 		if (event.stage > 0) return;
 		sendChat(
 			'ACT: ' + `${event.skill}`.clr('E69F00') + 
-			` ${event.skill.id % 1000}`.clr('56B4E9') + 
+			` ${event.skill.id}`.clr('56B4E9') + 
 			` ${event.id} `.clr('00FFFF')
 		);
 		if (writeLog)

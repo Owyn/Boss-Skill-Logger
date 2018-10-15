@@ -1,18 +1,15 @@
 {
 	"files": {
+		"LICENSE": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
 		"README.md": "9cd6e6eae997079d4633c19bd9d8c39dfde0ffbda0199607b6506ba9abca3796",
-		"config.json": "2c016f48ec12cd62d5c61326a08857e64bcc5f5bdea6ff01885c03dfaa38100d",
 		"format.js": "a0d34cfb7ab631177fbb0302e06a5858155db60afc459cd14f50b000afa2463e",
-		"index.js": "1eb413db88ce9c97ae02cbf3d86281c56546597dc1831961a14a26224decb4c8",
+		"index.js": "a497a8d4560032a4c9f894eeb70fdf68ca8ce69d06d95e2205b9ced3fbb0bdfe",
 		"module.json": "59693a1135d5c39b0516dceacf646c4c53fdc530498f824cd4d9a0f4a425c97b"
 	},
 	"defs": {
 		"S_ACTION_STAGE": 8,
-		"S_BOSS_GAGE_INFO": 3,
-		"S_CHAT": 2,
 		"S_DUNGEON_EVENT_MESSAGE": 2,
 		"S_EXIT": 3,
-		"S_LOGIN": 10,
-		"S_PARTY_MEMBER_LIST": 7
+		"S_LOGIN": 10
 	}
 }
