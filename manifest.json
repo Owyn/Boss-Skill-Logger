@@ -3,11 +3,12 @@
 		"LICENSE": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
 		"README.md": "9cd6e6eae997079d4633c19bd9d8c39dfde0ffbda0199607b6506ba9abca3796",
 		"format.js": "a0d34cfb7ab631177fbb0302e06a5858155db60afc459cd14f50b000afa2463e",
-		"index.js": "a497a8d4560032a4c9f894eeb70fdf68ca8ce69d06d95e2205b9ced3fbb0bdfe",
+		"index.js": "fe59df1263e81ac50894d711a872f5fa93d5b3dd2c185c63c646e6d0e0e3233a",
 		"module.json": "59693a1135d5c39b0516dceacf646c4c53fdc530498f824cd4d9a0f4a425c97b"
 	},
 	"defs": {
 		"S_ACTION_STAGE": 8,
+		"S_BOSS_GAGE_INFO": 3,
 		"S_DUNGEON_EVENT_MESSAGE": 2,
 		"S_EXIT": 3,
 		"S_LOGIN": 10

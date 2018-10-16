@@ -12,7 +12,8 @@ module.exports = function BossSkillLogger(dispatch) {
 	let enabled = config.enabled,
 		writeLog = config.writeLog,
 		cid = null,
-		party = [];
+		party = [],
+		bosshp;
 
 	var stream;
 
@@ -53,18 +54,11 @@ module.exports = function BossSkillLogger(dispatch) {
 	dispatch.hook('S_PARTY_MEMBER_LIST', 7, (event) => {
 		party = event;
 	})
-
-	dispatch.hook('S_BOSS_GAGE_INFO', 3, (event) => { 
-		if (!enabled) return;
-		if (writeLog)
-			stream.write(
-				'\n' + new Date().toLocaleTimeString() + 
-				' |S_BOSS_GAGE_INFO|:	' + event.id + 
-				'	huntingZoneId: ' + event.huntingZoneId + 
-				'		templateId: '+ event.templateId
-			);
-	})
  */
+	dispatch.hook('S_BOSS_GAGE_INFO', 3, (event) => { 
+		bosshp = Math.floor((event.curHp / event.maxHp)*10000)/100;
+	})
+
 	dispatch.hook('S_DUNGEON_EVENT_MESSAGE', 2, (event) => {
 		if (!enabled) return;
 		sendChat('MSG: ' + `${event.message}`.clr('00FFFF'));
@@ -87,7 +81,7 @@ module.exports = function BossSkillLogger(dispatch) {
 		sendChat(
 			'ACT: ' + `${event.skill}`.clr('E69F00') + 
 			` ${event.skill.id}`.clr('56B4E9') + 
-			` ${event.id} `.clr('00FFFF')
+			` HP ${bosshp} %`.clr('00FFFF')
 		);
 		if (writeLog)
 			stream.write(
@@ -96,7 +90,8 @@ module.exports = function BossSkillLogger(dispatch) {
 				'	skill: ' + event.skill + 
 				'	id: ' + event.id + 
 				'	stage: ' + event.stage + 
-				'	templateId: ' + event.templateId
+				'	templateId: ' + event.templateId +
+				'	HP: ' + bosshp
 			);
 	})
 
