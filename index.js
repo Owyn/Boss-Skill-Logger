@@ -68,12 +68,12 @@ module.exports = function BossSkillLogger(dispatch) {
 
 	dispatch.hook('S_DUNGEON_EVENT_MESSAGE', 2, (event) => {
 		if (!enabled) return;
-		sendChat('MSG: ' + `${event.message}`.clr('00FFFF') + ` HP ${bosshp} %`.clr('00FFFF'));
+		sendChat('MSG: ' + `${event.message}`.clr('E69F00') + ` HP ${bosshp} %`.clr('00FFFF'));
 		if (writeLog)
 			stream.write(
 				'\n' + new Date().toLocaleTimeString() + 
-				' |S_DUNG_MESSAGE|:	' + event.message +
-				` HP ${bosshp} %`.clr('00FFFF')
+				' |S_DUNG_MESSAGE|:		' + event.message +
+				` HP ${bosshp} %`
 			);
 	})
 	
@@ -102,7 +102,6 @@ module.exports = function BossSkillLogger(dispatch) {
 				'\n' + new Date().toLocaleTimeString() + 
 				' |S_ACTION_STAGE|:		gameId: ' + String(event.gameId) + 
 				'	skill id: ' + event.skill.id + 
-				'	id: ' + event.id + 
 				'	stage: ' + event.stage + 
 				'	templateId: ' + event.templateId +
 				'	HP: ' + bosshp
