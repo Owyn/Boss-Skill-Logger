@@ -1,16 +1,16 @@
 {
 	"files": {
 		"LICENSE": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
-		"README.md": "9cd6e6eae997079d4633c19bd9d8c39dfde0ffbda0199607b6506ba9abca3796",
-		"format.js": "a0d34cfb7ab631177fbb0302e06a5858155db60afc459cd14f50b000afa2463e",
-		"index.js": "fe59df1263e81ac50894d711a872f5fa93d5b3dd2c185c63c646e6d0e0e3233a",
-		"module.json": "59693a1135d5c39b0516dceacf646c4c53fdc530498f824cd4d9a0f4a425c97b"
+		"README.md": "0a7a7376a7eb3f6a2218a607c2e2e5099ae0fc543d9cd555304491a3d00906bb",
+		"config.json": "2c016f48ec12cd62d5c61326a08857e64bcc5f5bdea6ff01885c03dfaa38100d",
+		"index.js": "1ceb9a3550236b0c7eee7d7fc326b5be7b1e8398c9417da0149b999b4e6ef884",
+		"module.json": "8a856271a4830833b01e645ce67cd296b9630d82213090636c2a8fb1b5f01243"
 	},
 	"defs": {
-		"S_ACTION_STAGE": 8,
+		"S_ACTION_STAGE": 9,
 		"S_BOSS_GAGE_INFO": 3,
 		"S_DUNGEON_EVENT_MESSAGE": 2,
 		"S_EXIT": 3,
-		"S_LOGIN": 10
+		"S_LOAD_TOPO": 3
 	}
 }

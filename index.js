@@ -1,5 +1,4 @@
 String.prototype.clr = function (hexColor) { return `<font color="#${hexColor}">${this}</font>` };
-const format = require('./format.js');
 
 const path = require('path');
 const fs = require('fs');
@@ -11,7 +10,6 @@ module.exports = function BossSkillLogger(dispatch) {
 
 	let enabled = config.enabled,
 		writeLog = config.writeLog,
-		cid = null,
 		party = [],
 		bosshp;
 
@@ -19,7 +17,7 @@ module.exports = function BossSkillLogger(dispatch) {
 
 	dispatch.command.add('bsl', () => {
 		enabled = !enabled;
-		dispatch.command.message('记录王的技能ID ' + (enabled ? '启用'.clr('56B4E9') : '禁用'.clr('E69F00')));
+		dispatch.command.message(' is now ' + (enabled ? 'ON'.clr('56B4E9') : 'OFF'.clr('E69F00')));
 
 		if (writeLog) { 
 			if (enabled) {
@@ -37,10 +35,6 @@ module.exports = function BossSkillLogger(dispatch) {
 		}
 	})
 
-	dispatch.hook('S_LOGIN', 10, (event) => {
-		cid = event.gameId;
-	})
-
 	dispatch.hook('S_EXIT', 3, (event) => {
 		if (stream) {
 			try {
@@ -50,44 +44,64 @@ module.exports = function BossSkillLogger(dispatch) {
 			}
 		}
 	})
-/* 
-	dispatch.hook('S_PARTY_MEMBER_LIST', 7, (event) => {
-		party = event;
-	})
- */
+
+	let boss_seen = false;
+	let boss_id = 0n;
 	dispatch.hook('S_BOSS_GAGE_INFO', 3, (event) => { 
-		bosshp = Math.floor((event.curHp / event.maxHp)*10000)/100;
+		if (!enabled) return;
+		
+		if(!boss_seen)
+		{
+			boss_seen = true;
+			boss_id = event.id;
+			sendChat('BOSS: id: ' + String(event.id) +', huntingZoneId: ' + `${event.huntingZoneId}`.clr('00FFFF') + ', templateId: ' + `${event.templateId}`.clr('00FFFF'));
+			if (writeLog)
+				stream.write(
+					'\n' + new Date().toLocaleTimeString() + 
+					' |S_BOSS_GAGE_INFO|:	gameId: ' + String(event.id) +
+					' 	huntingZoneId: ' + event.huntingZoneId +
+					' 	templateId: ' + event.templateId
+				);
+		}
+		bosshp = String(event.curHp * 100n / event.maxHp);
 	})
 
 	dispatch.hook('S_DUNGEON_EVENT_MESSAGE', 2, (event) => {
 		if (!enabled) return;
-		sendChat('MSG: ' + `${event.message}`.clr('00FFFF'));
+		sendChat('MSG: ' + `${event.message}`.clr('00FFFF') + ` HP ${bosshp} %`.clr('00FFFF'));
 		if (writeLog)
 			stream.write(
 				'\n' + new Date().toLocaleTimeString() + 
-				' |S_DUNGEON_EVENT_MESSAGE|:	' + event.message
+				' |S_DUNG_MESSAGE|:	' + event.message +
+				` HP ${bosshp} %`.clr('00FFFF')
+			);
+	})
+	
+	dispatch.hook('S_LOAD_TOPO', 3, (event) => {
+		if (!enabled) return;
+		sendChat('Entering zone: ' + `${event.zone}`.clr('00FFFF'));
+		boss_seen = false;
+		if (writeLog)
+			stream.write(
+				'\n' + new Date().toLocaleTimeString() + 
+				' |S_LOAD_TOPO|:	' + event.zone
 			);
 	})
 
-	dispatch.hook('S_ACTION_STAGE', 8, (event) => {
-		if (!enabled || ((event.gameId - cid) == 0)) return;
-
-		// for (let i in party.members) {
-			// if (party.members[i].gameId - event.gameId == 0) return;
-		// }
-
-		if (event.templateId!=1000 && event.templateId!=2000 && event.templateId!=3000) return;
+	dispatch.hook('S_ACTION_STAGE', 9, (event) => {
+		if (!enabled) return;
+		if (event.templateId!=1000 && event.templateId!=2000 && event.templateId!=3000 && event.gameId!=boss_id) return;
 		if (event.stage > 0) return;
+		
 		sendChat(
-			'ACT: ' + `${event.skill}`.clr('E69F00') + 
-			` ${event.skill.id}`.clr('56B4E9') + 
+			'SKILL: ' + `${event.skill.id % 1000}`.clr('E69F00') + 
 			` HP ${bosshp} %`.clr('00FFFF')
 		);
 		if (writeLog)
 			stream.write(
 				'\n' + new Date().toLocaleTimeString() + 
-				' |S_ACTION_STAGE|:		' + event.gameId + 
-				'	skill: ' + event.skill + 
+				' |S_ACTION_STAGE|:		gameId: ' + String(event.gameId) + 
+				'	skill id: ' + event.skill.id + 
 				'	id: ' + event.id + 
 				'	stage: ' + event.stage + 
 				'	templateId: ' + event.templateId +
