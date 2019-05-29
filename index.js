@@ -45,14 +45,12 @@ module.exports = function BossSkillLogger(dispatch) {
 		}
 	})
 
-	let boss_seen = false;
 	let boss_id = 0n;
 	dispatch.hook('S_BOSS_GAGE_INFO', 3, (event) => { 
 		if (!enabled) return;
 		
-		if(!boss_seen)
+		if(boss_id !== event.id)
 		{
-			boss_seen = true;
 			boss_id = event.id;
 			sendChat('BOSS: id: ' + String(event.id) +', huntingZoneId: ' + `${event.huntingZoneId}`.clr('00FFFF') + ', templateId: ' + `${event.templateId}`.clr('00FFFF'));
 			if (writeLog)
@@ -68,19 +66,18 @@ module.exports = function BossSkillLogger(dispatch) {
 
 	dispatch.hook('S_DUNGEON_EVENT_MESSAGE', 2, (event) => {
 		if (!enabled) return;
-		sendChat('MSG: ' + `${event.message}`.clr('E69F00') + ` HP ${bosshp} %`.clr('00FFFF'));
+		sendChat('MSG: ' + `${event.message}`.clr('E69F00') + ` HP ${bosshp}%`.clr('00FFFF'));
 		if (writeLog)
 			stream.write(
 				'\n' + new Date().toLocaleTimeString() + 
 				' |S_DUNG_MESSAGE|:		' + event.message +
-				` HP ${bosshp} %`
+				` HP ${bosshp}%`
 			);
 	})
 	
 	dispatch.hook('S_LOAD_TOPO', 3, (event) => {
 		if (!enabled) return;
 		sendChat('Entering zone: ' + `${event.zone}`.clr('00FFFF'));
-		boss_seen = false;
 		if (writeLog)
 			stream.write(
 				'\n' + new Date().toLocaleTimeString() + 
@@ -95,7 +92,7 @@ module.exports = function BossSkillLogger(dispatch) {
 		
 		sendChat(
 			'SKILL: ' + `${event.skill.id % 1000}`.clr('E69F00') + 
-			` HP ${bosshp} %`.clr('00FFFF')
+			` HP ${bosshp}%`.clr('00FFFF')
 		);
 		if (writeLog)
 			stream.write(
